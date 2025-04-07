@@ -20,7 +20,8 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: '10.00' // El monto que deseas cobrar
+                            currency_code: 'MXN', // Establecemos la moneda como MXN (Peso Mexicano)
+                            value: '1.00'          // El monto que deseas cobrar
                         }
                     }]
                 });
@@ -34,7 +35,7 @@
                 console.error('Error de pago:', err);
                 alert('Hubo un error al procesar el pago');
             }
-        }).render('#paypal-button-container');  // Renderiza el botón de PayPal en el contenedor
+        }).render('#paypal-button-container'); 
     </script>
 </body>
 </html>
