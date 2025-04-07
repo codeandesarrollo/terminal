@@ -1,42 +1,38 @@
-// api/pay.js
-import Conekta from 'conekta';
+const axios = require('axios');
 
-// Configura la clave secreta de Conekta desde las variables de entorno
-Conekta.api_key = process.env.CONEKTA_SECRET_KEY;  // Aquí accedes a la clave secreta
-Conekta.locale = 'es'; // Establece el idioma en español (opcional)
+// Tus credenciales de PayPal
+const clientId = 'AW79wRK5RvhvX2aDDoOgXeadTdkEl1soGvAKdga9uUdsNG4umGrf9pf38zEQ2_WVsD2mT_2G-BvwHPn4';
+const secret = 'ELtlNn5XddAEt9NwsYi4BvAg8CXacZcpf_TjKLxsXqZ64woQUHVDvep66KgY2_1kxI-hUnH0SutgwLN8';
 
-// Manejo de la solicitud POST
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { monto, moneda, destinatario, metodo_pago, detalles_tarjeta } = req.body;
-
+// Función para obtener el token de acceso
+async function getAccessToken() {
+    const auth = Buffer.from(`${clientId}:${secret}`).toString('base64');
     try {
-      // Crear una orden en Conekta
-      const order = await Conekta.Order.create({
-        line_items: [
-          {
-            name: 'Producto de prueba', // Nombre del producto o servicio
-            unit_price: monto * 100, // Conekta espera el monto en centavos, por lo que multiplicamos por 100
-            quantity: 1,
-          },
-        ],
-        currency: moneda,
-        customer_info: {
-          name: destinatario,
-        },
-      });
-
-      // Responder con la orden creada
-      res.status(200).json({
-        message: 'Pago realizado con éxito',
-        orderId: order.id,
-        status: 'success',
-      });
+        const response = await axios.post('https://api.paypal.com/v1/oauth2/token', 'grant_type=client_credentials', {
+            headers: {
+                'Authorization': `Basic ${auth}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+        return response.data.access_token;
     } catch (error) {
-      console.error('Error al procesar el pago:', error);
-      res.status(500).json({ message: 'Error al procesar el pago', error: error.message });
+        console.error('Error al obtener el token de acceso:', error);
+        throw error;
     }
-  } else {
-    res.status(405).json({ message: 'Método no permitido' });
-  }
+}
+
+// Función para capturar el pago
+async function capturePayment(orderId) {
+    const accessToken = await getAccessToken();
+    try {
+        const response = await axios.post(`https://api.paypal.com/v2/checkout/orders/${orderId}/capture`, {}, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log('Pago capturado con éxito:', response.data);
+    } catch (error) {
+        console.error('Error al capturar el pago:', error);
+    }
 }
