@@ -12,8 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "conekta": "^6.0.3",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.21.2",
+    "install": "^0.13.0",
+    "npm": "^11.2.0",
     "paypal-rest-sdk": "^1.8.1"
   }
 }

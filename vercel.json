@@ -2,14 +2,20 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.js",
+      "src": "api/payment.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/pay",
-      "dest": "/server.js"
+      "src": "/api/pay",
+      "dest": "/api/payment.js",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/(.*)",
+      "status": 404,
+      "dest": "404.html"
     }
   ]
 }
