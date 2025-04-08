@@ -8,12 +8,9 @@
 <body>
     <h1>Realiza tu pago con PayPal</h1>
 
-    
     <div id="paypal-button-container"></div>
 
-  
-    <script src="https://www.paypal.com/sdk/js?client-id=AW79wRK5RvhvX2aDDoOgXeadTdkEl1soGvAKdga9uUdsNG4umGrf9pf38zEQ2_WVsD2mT_2G-BvwHPn4&components=buttons&currency=USD"></script>
-
+    <script src="https://www.paypal.com/sdk/js?client-id=AW79wRK5RvhvX2aDDoOgXeadTdkEl1soGvAKdga9uUdsNG4umGrf9pf38zEQ2_WVsD2mT_2G-BvwHPn4&components=buttons&currency=MXN"></script>
 
     <script>
         paypal.Buttons({
@@ -21,8 +18,8 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            currency_code: 'MXN',   // Aquí se cambió a pesos mexicanos
-                            value: '1.00'          // Monto en pesos mexicanos
+                            currency_code: 'MXN',   // Moneda en pesos mexicanos
+                            value: '1.00'           // Valor del pago: 1 peso mexicano
                         }
                     }]
                 });
@@ -36,7 +33,7 @@
                 console.error('Error de pago:', err);
                 alert('Hubo un error al procesar el pago');
             }
-        }).render('#paypal-button-container'); 
+        }).render('#paypal-button-container');
     </script>
 </body>
 </html>
