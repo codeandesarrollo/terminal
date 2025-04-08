@@ -8,11 +8,11 @@
 <body>
     <h1>Realiza tu pago con PayPal</h1>
 
-    <!-- Contenedor para el botón de PayPal -->
+    
     <div id="paypal-button-container"></div>
 
-    <!-- Cargar el SDK de PayPal -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AW79wRK5RvhvX2aDDoOgXeadTdkEl1soGvAKdga9uUdsNG4umGrf9pf38zEQ2_WVsD2mT_2G-BvwHPn4&components=buttons&currency=MXN"></script>
+  
+    <script src="https://www.paypal.com/sdk/js?client-id=AW79wRK5RvhvX2aDDoOgXeadTdkEl1soGvAKdga9uUdsNG4umGrf9pf38zEQ2_WVsD2mT_2G-BvwHPn4&components=buttons&currency=USD"></script>
 
 
     <script>
@@ -21,8 +21,8 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            currency_code: 'MXN', // Establecemos la moneda como MXN (Peso Mexicano)
-                            value: '1.00'          // El monto que deseas cobrar
+                            currency_code: 'USD',   // Cambiado a USD
+                            value: '1.00'           // Monto en dólares
                         }
                     }]
                 });
